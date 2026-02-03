@@ -1,0 +1,65 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    width: 100%;
+}
+
+.label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.selectWrapper {
+    position: relative;
+    width: 100%;
+}
+
+.select {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    padding-right: 2.5rem;
+    /* Space for arrow */
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-surface);
+    color: var(--text-main);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    font-size: 1rem;
+    appearance: none;
+    /* Hide default arrow */
+    cursor: pointer;
+}
+
+.select:focus {
+    outline: none;
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+.errorInput {
+    border-color: var(--danger);
+}
+
+.errorInput:focus {
+    box-shadow: 0 0 0 2px #fecaca;
+}
+
+.errorMessage {
+    font-size: 0.75rem;
+    color: var(--danger);
+}
+
+/* Custom Arrow */
+.arrow {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-right: 2px solid var(--text-muted);
+    border-bottom: 2px solid var(--text-muted);
+    transform: translateY(-70%) rotate(45deg);
+    pointer-events: none;
+}

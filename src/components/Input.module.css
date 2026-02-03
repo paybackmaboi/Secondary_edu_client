@@ -1,0 +1,43 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    width: 100%;
+}
+
+.label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-surface);
+    color: var(--text-main);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    font-size: 1rem;
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+.errorInput {
+    border-color: var(--danger);
+}
+
+.errorInput:focus {
+    box-shadow: 0 0 0 2px #fecaca;
+    /* Red 200 */
+}
+
+.errorMessage {
+    font-size: 0.75rem;
+    color: var(--danger);
+}

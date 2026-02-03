@@ -1,0 +1,94 @@
+.sidebar {
+    width: 280px;
+    height: 100vh;
+    background-color: var(--bg-surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-lg);
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: var(--spacing-xl);
+    padding-left: var(--spacing-xs);
+}
+
+.logoIcon {
+    width: 40px;
+    height: 40px;
+    background: var(--primary-light);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    font-size: 1.25rem;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    flex: 1;
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-weight: 500;
+    transition: all var(--transition-fast);
+    text-decoration: none;
+}
+
+.link:hover {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+}
+
+.active {
+    background-color: var(--primary);
+    color: var(--text-on-primary);
+    box-shadow: var(--shadow-md);
+}
+
+.active:hover {
+    background-color: var(--primary-hover);
+    color: var(--text-on-primary);
+}
+
+.footer {
+    margin-top: auto;
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--border);
+}
+
+.logoutBtn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    width: 100%;
+    padding: var(--spacing-md);
+    color: var(--danger);
+    font-weight: 500;
+    border-radius: var(--radius-md);
+    transition: background var(--transition-fast);
+}
+
+.logoutBtn:hover {
+    background-color: #fee2e2;
+    /* Red 100 */
+}

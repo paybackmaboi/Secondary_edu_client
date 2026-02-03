@@ -1,0 +1,165 @@
+.container {
+    padding: var(--spacing-xl);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-lg);
+}
+
+.headerLeft {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.backLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    background-color: var(--bg-surface);
+    color: var(--text-main);
+    border: 1px solid var(--border);
+    transition: all var(--transition-fast);
+}
+
+.backLink:hover {
+    background-color: var(--bg-main);
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-main);
+    line-height: 1.1;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.contentGrid {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: var(--spacing-lg);
+    align-items: start;
+}
+
+@media (max-width: 900px) {
+    .contentGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.profileCard {
+    background: var(--bg-surface);
+}
+
+.avatarPlaceholder {
+    width: 100px;
+    height: 100px;
+    background-color: var(--bg-main);
+    color: var(--text-muted);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--spacing-lg);
+}
+
+.infoGroup {
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--border);
+}
+
+.infoGroup:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.infoGroup label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.infoGroup span {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.mainContent {
+    /* Tabs container */
+}
+
+.tabs {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border);
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-md);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    border-bottom: 2px solid transparent;
+    transition: all var(--transition-fast);
+}
+
+.tab:hover {
+    color: var(--primary);
+    background-color: var(--primary-light);
+    border-top-left-radius: var(--radius-md);
+    border-top-right-radius: var(--radius-md);
+}
+
+.activeTab {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+.tabContent {
+    min-height: 300px;
+}
+
+.tabHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.tabHeader h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.loading,
+.error {
+    padding: var(--spacing-xl);
+    text-align: center;
+    font-size: 1.125rem;
+}
+
+.error {
+    color: var(--danger);
+}

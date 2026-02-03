@@ -1,0 +1,140 @@
+.container {
+  padding: var(--spacing-xl);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-xl);
+}
+
+@media print {
+  .toolbar {
+    display: none;
+  }
+  .container {
+    padding: 0;
+    max-width: 100%;
+  }
+}
+
+.reportCard {
+  background: white;
+  padding: var(--spacing-xl);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+@media print {
+  .reportCard {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+}
+
+.schoolHeader {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+  border-bottom: 2px solid black;
+  padding-bottom: var(--spacing-md);
+}
+
+.schoolHeader h1 {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  margin: 4px 0;
+}
+.schoolHeader h2 {
+  font-size: 1rem;
+  font-weight: normal;
+}
+.schoolHeader h3 {
+  font-size: 1.1rem;
+  margin-top: 8px;
+}
+
+.studentInfo {
+  margin-bottom: var(--spacing-lg);
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xl);
+}
+
+@media (max-width: 768px) {
+  .gridContainer {
+    grid-template-columns: 1fr;
+  }
+}
+
+.gradesSection h3, .sideSection h3 {
+  font-size: 0.9rem;
+  text-align: center;
+  background-color: #f3f4f6;
+  padding: 4px;
+  border: 1px solid black;
+  margin-bottom: 0;
+  font-weight: bold;
+}
+
+.reportTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  margin-bottom: var(--spacing-lg);
+}
+
+.reportTable th, .reportTable td {
+  border: 1px solid black;
+  padding: 4px 8px;
+  text-align: center;
+}
+
+.reportTable th {
+  background-color: #f3f4f6;
+}
+
+.reportTable td.subjectName {
+  text-align: left;
+}
+
+.coreValueTitle {
+  font-weight: 600;
+}
+.behavior {
+  font-size: 0.75rem;
+  font-style: italic;
+  color: #4b5563;
+}
+
+.signatures {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 50px;
+}
+
+.sigBlock {
+    text-align: center;
+    width: 200px;
+}
+
+.line {
+    border-bottom: 1px solid black;
+    margin-bottom: 4px;
+}
+
+.loading, .error {
+  text-align: center;
+  margin-top: 50px;
+}

@@ -1,0 +1,75 @@
+import axios from 'axios';
+
+const api = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
+
+// Request interceptor
+api.interceptors.request.use(
+    (config) => {
+        // Add auth token if available
+        if (typeof window !== 'undefined') {
+            const user = localStorage.getItem('user');
+            if (user) {
+                // Future: Add JWT token here
+            }
+        }
+        return config;
+    },
+    (error) => Promise.reject(error)
+);
+
+// Response interceptor
+api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response?.status === 401) {
+            if (typeof window !== 'undefined') {
+                localStorage.removeItem('user');
+                window.location.href = '/login';
+            }
+        }
+        return Promise.reject(error);
+    }
+);
+
+export default api;
+
+// API Endpoints
+export const studentsAPI = {
+    getAll: () => api.get('/students'),
+    getById: (id) => api.get(`/students/${id}`),
+    create: (data) => api.post('/students', data),
+    getReportCard: (id) => api.get(`/students/${id}/report-card`),
+};
+
+export const gradesAPI = {
+    getByStudent: (studentId) => api.get(`/grades/student/${studentId}`),
+    create: (data) => api.post('/grades', data),
+    update: (id, data) => api.put(`/grades/${id}`, data),
+};
+
+export const attendanceAPI = {
+    getByStudent: (studentId) => api.get(`/attendance/student/${studentId}`),
+    create: (data) => api.post('/attendance', data),
+    update: (id, data) => api.put(`/attendance/${id}`, data),
+};
+
+export const subjectsAPI = {
+    getAll: () => api.get('/subjects'),
+    getById: (id) => api.get(`/subjects/${id}`),
+    create: (data) => api.post('/subjects', data),
+    update: (id, data) => api.put(`/subjects/${id}`, data),
+    delete: (id) => api.delete(`/subjects/${id}`),
+};
+
+export const accountsAPI = {
+    getAll: () => api.get('/accounts'),
+    getById: (id) => api.get(`/accounts/${id}`),
+    create: (data) => api.post('/accounts', data),
+    update: (id, data) => api.put(`/accounts/${id}`, data),
+    delete: (id) => api.delete(`/accounts/${id}`),
+};

@@ -1,0 +1,91 @@
+.container {
+    padding: var(--spacing-xl);
+    max-width: 900px;
+    /* Narrower for form */
+    margin: 0 auto;
+}
+
+.header {
+    margin-bottom: var(--spacing-lg);
+}
+
+.headerLeft {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.backLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    background-color: var(--bg-surface);
+    color: var(--text-main);
+    border: 1px solid var(--border);
+    transition: all var(--transition-fast);
+}
+
+.backLink:hover {
+    background-color: var(--bg-main);
+    border-color: var(--text-secondary);
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.formCard {
+    padding: var(--spacing-none);
+    /* Let form handle padding */
+}
+
+.form {
+    padding: var(--spacing-xl);
+}
+
+.sectionTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-xs);
+    border-bottom: 1px solid var(--border);
+    margin-top: var(--spacing-lg);
+}
+
+.sectionTitle:first-child {
+    margin-top: 0;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--border);
+}
+
+.errorBanner {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-md);
+}

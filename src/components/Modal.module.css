@@ -1,70 +1,14 @@
 .overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 50;
-    backdrop-filter: blur(4px);
-    animation: fadeIn 0.2s ease-out;
-}
-
-.modal {
-    background-color: var(--bg-surface);
-    border-radius: var(--radius-lg);
-    width: 90%;
-    max-width: 500px;
-    max-height: 90vh;
-    display: flex;
-    flex-direction: column;
-    box-shadow: var(--shadow-lg);
-    animation: slideUp 0.3s ease-out;
-}
-
-.header {
+    z-index: 1000;
     padding: var(--spacing-lg);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--text-main);
-}
-
-.closeBtn {
-    color: var(--text-muted);
-    padding: 4px;
-    border-radius: var(--radius-sm);
-    transition: all var(--transition-fast);
-}
-
-.closeBtn:hover {
-    background-color: var(--bg-main);
-    color: var(--text-main);
-}
-
-.content {
-    padding: var(--spacing-lg);
-    overflow-y: auto;
-}
-
-.footer {
-    padding: var(--spacing-lg);
-    border-top: 1px solid var(--border);
-    display: flex;
-    justify-content: flex-end;
-    gap: var(--spacing-md);
-    background-color: var(--bg-main);
-    border-bottom-left-radius: var(--radius-lg);
-    border-bottom-right-radius: var(--radius-lg);
+    animation: fadeIn 0.2s ease;
 }
 
 @keyframes fadeIn {
@@ -77,14 +21,147 @@
     }
 }
 
+.modal {
+    background: var(--gradient-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-xl);
+    animation: slideUp 0.3s ease;
+}
+
 @keyframes slideUp {
     from {
-        transform: translateY(20px);
         opacity: 0;
+        transform: translateY(20px) scale(0.95);
     }
 
     to {
-        transform: translateY(0);
         opacity: 1;
+        transform: translateY(0) scale(1);
     }
+}
+
+.sm {
+    max-width: 400px;
+}
+
+.lg {
+    max-width: 700px;
+}
+
+.xl {
+    max-width: 900px;
+}
+
+.fullscreen {
+    max-width: none;
+    width: calc(100% - 2rem);
+    height: calc(100% - 2rem);
+    border-radius: var(--radius-lg);
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-lg) var(--spacing-xl);
+    border-bottom: 1px solid var(--border);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.closeBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.closeBtn:hover {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+.content {
+    padding: var(--spacing-xl);
+    overflow-y: auto;
+    flex: 1;
+    color: var(--text-secondary);
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-lg) var(--spacing-xl);
+    border-top: 1px solid var(--border);
+    background: rgba(0, 0, 0, 0.1);
+}
+
+/* Confirmation Modal Variant */
+.confirmIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-full);
+    margin: 0 auto var(--spacing-lg);
+}
+
+.confirmIconDanger {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--danger);
+}
+
+.confirmIconWarning {
+    background: rgba(245, 158, 11, 0.15);
+    color: var(--warning);
+}
+
+.confirmIconSuccess {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--success);
+}
+
+.confirmIconInfo {
+    background: rgba(59, 130, 246, 0.15);
+    color: var(--info);
+}
+
+.confirmTitle {
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.confirmMessage {
+    text-align: center;
+    color: var(--text-secondary);
 }

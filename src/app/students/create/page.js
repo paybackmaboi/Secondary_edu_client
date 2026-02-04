@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Save } from 'lucide-react';
 import Link from 'next/link';
-import { api } from '@/lib/api';
+import { studentsAPI } from '@/services/api';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
 import Select from '@/components/Select';
@@ -48,7 +48,7 @@ export default function CreateStudentPage() {
                 throw new Error("Please fill in all required fields.");
             }
 
-            await api.students.create(formData);
+            await studentsAPI.create(formData);
             router.push('/students');
         } catch (err) {
             setError(err.message);

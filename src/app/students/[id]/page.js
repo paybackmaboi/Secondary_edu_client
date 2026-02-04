@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { ArrowLeft, User, BookOpen, Calendar, Star, FileText } from 'lucide-react';
 import Link from 'next/link';
-import { api } from '@/lib/api';
+import { studentsAPI, gradesAPI } from '@/services/api';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
 import Table from '@/components/Table';
@@ -25,8 +25,8 @@ export default function StudentDetailPage() {
     async function fetchStudent() {
         try {
             setLoading(true);
-            const data = await api.students.get(id);
-            setStudent(data);
+            const response = await studentsAPI.getById(id);
+            setStudent(response.data);
         } catch (err) {
             setError(err.message);
         } finally {
@@ -135,7 +135,8 @@ function GradesTab({ studentId }) {
         // For now, mock or empty
         async function load() {
             try {
-                const data = await api.grades.getByStudent(studentId);
+                const response = await gradesAPI.getByStudent(studentId);
+                const data = response.data;
                 setGrades(Array.isArray(data) ? data : []);
             } catch (e) {
                 console.error(e);

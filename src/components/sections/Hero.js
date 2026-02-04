@@ -2,7 +2,7 @@
 import { motion } from 'framer-motion';
 import { FaGraduationCap, FaArrowRight } from 'react-icons/fa';
 import Link from 'next/link';
-import Button from '../ui/Button';
+import Button from '../Button';
 
 export default function Hero() {
     return (

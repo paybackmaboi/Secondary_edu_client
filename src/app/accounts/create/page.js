@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Save } from 'lucide-react';
 import Link from 'next/link';
-import { api } from '@/lib/api';
+import { accountsAPI } from '@/services/api';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
 import Select from '@/components/Select';
@@ -36,7 +36,7 @@ export default function CreateAccountPage() {
             if (!formData.username || !formData.password || !formData.email) {
                 throw new Error("All fields are required.");
             }
-            await api.accounts.create(formData);
+            await accountsAPI.create(formData);
             router.push('/accounts');
         } catch (err) {
             setError(err.message);

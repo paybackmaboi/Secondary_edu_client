@@ -43,10 +43,7 @@ export function AuthProvider({ children }) {
                 setUser(account);
                 localStorage.setItem('user', JSON.stringify(account));
 
-                if (account.role === 'superadmin') router.push('/superadmin');
-                else if (account.role === 'admin') router.push('/admin');
-                else if (account.role === 'teacher') router.push('/teacher');
-                else router.push('/admin');
+                router.push('/dashboard');
 
                 return { success: true };
             }

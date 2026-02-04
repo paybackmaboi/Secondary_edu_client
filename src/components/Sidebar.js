@@ -1,5 +1,6 @@
-"use client";
+'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -10,8 +11,11 @@ import {
     HeartHandshake,
     BookOpen,
     Settings,
-    LogOut
+    LogOut,
+    ChevronLeft,
+    ChevronRight
 } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 import styles from './Sidebar.module.css';
 
 const menuItems = [
@@ -26,9 +30,24 @@ const menuItems = [
 
 export default function Sidebar() {
     const pathname = usePathname();
+    const { user, logout } = useAuth();
+    const [collapsed, setCollapsed] = useState(false);
+
+    const getInitials = (name) => {
+        if (!name) return 'U';
+        return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+    };
 
     return (
-        <aside className={styles.sidebar}>
+        <aside className={`${styles.sidebar} ${collapsed ? styles.collapsed : ''}`}>
+            <button
+                className={styles.toggleBtn}
+                onClick={() => setCollapsed(!collapsed)}
+                aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            >
+                {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+            </button>
+
             <div className={styles.logo}>
                 <div className={styles.logoIcon}>🎓</div>
                 <span>EduTrack</span>
@@ -37,14 +56,19 @@ export default function Sidebar() {
             <nav className={styles.nav}>
                 {menuItems.map((item) => {
                     const Icon = item.icon;
-                    const isActive = pathname === item.href;
+                    const isActive = pathname === item.href ||
+                        (item.href !== '/' && pathname.startsWith(item.href));
+
                     return (
                         <Link
                             key={item.href}
                             href={item.href}
                             className={`${styles.link} ${isActive ? styles.active : ''}`}
+                            title={collapsed ? item.name : undefined}
                         >
-                            <Icon size={20} />
+                            <span className={styles.linkIcon}>
+                                <Icon size={20} />
+                            </span>
                             <span>{item.name}</span>
                         </Link>
                     );
@@ -52,8 +76,19 @@ export default function Sidebar() {
             </nav>
 
             <div className={styles.footer}>
-                <button className={styles.logoutBtn}>
-                    <LogOut size={20} />
+                {user && (
+                    <div className={styles.userSection}>
+                        <div className={styles.avatar}>
+                            {getInitials(user.username)}
+                        </div>
+                        <div className={styles.userInfo}>
+                            <div className={styles.userName}>{user.username}</div>
+                            <div className={styles.userRole}>{user.role}</div>
+                        </div>
+                    </div>
+                )}
+                <button className={styles.logoutBtn} onClick={logout}>
+                    <LogOut size={18} />
                     <span>Logout</span>
                 </button>
             </div>

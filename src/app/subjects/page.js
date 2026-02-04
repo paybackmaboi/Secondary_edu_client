@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Trash2, Plus } from 'lucide-react';
-import { api } from '@/lib/api';
+import { subjectsAPI } from '@/services/api';
 import Table from '@/components/Table';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
@@ -18,7 +18,8 @@ export default function SubjectsPage() {
     }, []);
 
     const loadSubjects = () => {
-        api.subjects.list().then(data => {
+        subjectsAPI.getAll().then(response => {
+            const data = response.data;
             setSubjects(Array.isArray(data) ? data : (data.data || []));
             setLoading(false);
         }).catch(e => setLoading(false));
@@ -27,7 +28,7 @@ export default function SubjectsPage() {
     const handleDelete = async (id) => {
         if (confirm("Are you sure you want to delete this subject?")) {
             try {
-                await api.subjects.delete(id);
+                await subjectsAPI.delete(id);
                 loadSubjects();
             } catch (e) {
                 alert("Failed to delete subject");

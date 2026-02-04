@@ -4,7 +4,7 @@ import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeft, Save } from 'lucide-react';
 import Link from 'next/link';
-import { api } from '@/lib/api';
+import { studentsAPI, observedValuesAPI } from '@/services/api';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
 import Select from '@/components/Select';
@@ -36,7 +36,8 @@ function ValuesForm() {
 
     async function fetchStudents() {
         try {
-            const data = await api.students.list();
+            const response = await studentsAPI.getAll();
+            const data = response.data;
             setStudents(Array.isArray(data) ? data : (data.data || []));
         } catch (e) { }
     }
@@ -51,7 +52,7 @@ function ValuesForm() {
         setLoading(true);
         setError(null);
         try {
-            await api.observedValues.add(formData);
+            await observedValuesAPI.create(formData);
             router.push(`/students/${formData.studentId}`);
         } catch (err) {
             setError(err.message);

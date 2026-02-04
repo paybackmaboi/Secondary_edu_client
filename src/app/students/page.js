@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Plus, Search, Eye, FileText } from 'lucide-react';
-import { api } from '@/lib/api';
+import { studentsAPI } from '@/services/api';
 import Table from '@/components/Table';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
@@ -23,7 +23,8 @@ export default function StudentsPage() {
     async function fetchStudents() {
         try {
             setLoading(true);
-            const data = await api.students.list();
+            const response = await studentsAPI.getAll();
+            const data = response.data;
             // Handle response if it's nested (e.g. data.data) or array
             setStudents(Array.isArray(data) ? data : (data.data || []));
         } catch (err) {

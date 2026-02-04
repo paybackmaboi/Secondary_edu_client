@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Calendar } from 'lucide-react';
-import { api } from '@/lib/api';
+import { studentsAPI } from '@/services/api';
 import Table from '@/components/Table';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
@@ -14,7 +14,8 @@ export default function AttendancePage() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        api.students.list().then(data => {
+        studentsAPI.getAll().then(response => {
+            const data = response.data;
             setStudents(Array.isArray(data) ? data : (data.data || []));
             setLoading(false);
         }).catch(e => setLoading(false));

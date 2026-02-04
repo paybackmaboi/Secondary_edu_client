@@ -4,7 +4,7 @@ import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeft, Save } from 'lucide-react';
 import Link from 'next/link';
-import { api } from '@/lib/api';
+import { studentsAPI, gradesAPI } from '@/services/api';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
 import Select from '@/components/Select';
@@ -42,7 +42,8 @@ function GradeForm() {
 
     async function fetchStudents() {
         try {
-            const data = await api.students.list();
+            const response = await studentsAPI.getAll();
+            const data = response.data;
             setStudents(Array.isArray(data) ? data : (data.data || []));
         } catch (e) {
             console.error("Failed to load students", e);
@@ -68,7 +69,7 @@ function GradeForm() {
             // API expects numbers for grades usually, but Input text is string.
             // We should convert if needed, or rely on backend coercion.
 
-            await api.grades.add(formData);
+            await gradesAPI.create(formData);
 
             // Redirect back to student profile or grades list
             router.push(`/students/${formData.studentId}`);

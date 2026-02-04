@@ -1,7 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 import { FaUserShield, FaUserCog, FaChalkboardTeacher, FaUser } from 'react-icons/fa';
-import Card from '../ui/Card';
+import Card from '../Card';
 
 const roles = [
     {

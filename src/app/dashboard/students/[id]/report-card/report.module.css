@@ -1,0 +1,169 @@
+.reportCard {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.reportHeader {
+    text-align: center;
+    padding: var(--spacing-xl);
+    background: var(--gradient-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    margin-bottom: var(--spacing-xl);
+}
+
+.reportHeader h1 {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin: 0 0 var(--spacing-xs);
+}
+
+.reportHeader h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 var(--spacing-sm);
+}
+
+.reportHeader h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+}
+
+.infoGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.infoItem {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.infoLabel {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+}
+
+.infoValue {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.tableWrapper {
+    overflow-x: auto;
+}
+
+.gradeTable,
+.attendanceTable,
+.valuesTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.gradeTable th,
+.gradeTable td,
+.attendanceTable th,
+.attendanceTable td,
+.valuesTable th,
+.valuesTable td {
+    padding: var(--spacing-md);
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+}
+
+.gradeTable th,
+.attendanceTable th,
+.valuesTable th {
+    background: rgba(0, 0, 0, 0.3);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+}
+
+.gradeTable td:first-child,
+.valuesTable td:first-child,
+.valuesTable td:nth-child(2) {
+    text-align: left;
+}
+
+.gradeTable tbody tr:hover,
+.attendanceTable tbody tr:hover,
+.valuesTable tbody tr:hover {
+    background: rgba(99, 102, 241, 0.05);
+}
+
+.finalGrade {
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.passed {
+    color: var(--success);
+    font-weight: 600;
+}
+
+.failed {
+    color: var(--danger);
+    font-weight: 600;
+}
+
+.present {
+    color: var(--success);
+}
+
+.absent {
+    color: var(--danger);
+}
+
+.tardy {
+    color: var(--warning);
+}
+
+.totalRow {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.coreValue {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.legend {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    background: rgba(0, 0, 0, 0.1);
+}
+
+/* Print Styles */
+@media print {
+    .noPrint {
+        display: none !important;
+    }
+
+    .reportCard {
+        max-width: none;
+    }
+
+    .reportHeader,
+    .infoGrid,
+    .tableWrapper {
+        break-inside: avoid;
+    }
+}

@@ -1,37 +1,120 @@
 .card {
-    background-color: var(--bg-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
+    background: var(--gradient-card);
+    border-radius: var(--radius-xl);
     border: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all var(--transition-base);
     overflow: hidden;
-    height: 100%;
+}
+
+.card:hover {
+    border-color: var(--border-hover);
+}
+
+.interactive:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl), var(--shadow-glow);
 }
 
 .header {
-    padding: var(--spacing-lg);
+    padding: var(--spacing-lg) var(--spacing-xl);
     border-bottom: 1px solid var(--border);
     font-size: 1.125rem;
     font-weight: 600;
-    color: var(--text-main);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.headerIcon {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
 }
 
 .content {
-    /* Content container if needed */
+    color: var(--text-secondary);
 }
 
-/* Padding variants */
-.p-none {
+/* Padding Variants */
+.p-none .content {
     padding: 0;
 }
 
-.p-sm {
+.p-sm .content {
     padding: var(--spacing-sm);
 }
 
-.p-md {
+.p-md .content {
     padding: var(--spacing-md);
 }
 
-.p-lg {
-    padding: var(--spacing-lg);
+.p-lg .content {
+    padding: var(--spacing-lg) var(--spacing-xl);
+}
+
+.p-xl .content {
+    padding: var(--spacing-xl) var(--spacing-2xl);
+}
+
+/* Card Footer */
+.footer {
+    padding: var(--spacing-lg) var(--spacing-xl);
+    border-top: 1px solid var(--border);
+    background: rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--spacing-sm);
+}
+
+/* Glass Variant */
+.glass {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Gradient Border */
+.gradientBorder {
+    position: relative;
+    background: var(--bg-secondary);
+    border: none;
+}
+
+.gradientBorder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: var(--gradient-primary);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+/* Status Cards */
+.success {
+    border-color: rgba(16, 185, 129, 0.3);
+    background: linear-gradient(145deg, rgba(16, 185, 129, 0.1) 0%, rgba(30, 41, 59, 0.9) 100%);
+}
+
+.warning {
+    border-color: rgba(245, 158, 11, 0.3);
+    background: linear-gradient(145deg, rgba(245, 158, 11, 0.1) 0%, rgba(30, 41, 59, 0.9) 100%);
+}
+
+.danger {
+    border-color: rgba(239, 68, 68, 0.3);
+    background: linear-gradient(145deg, rgba(239, 68, 68, 0.1) 0%, rgba(30, 41, 59, 0.9) 100%);
+}
+
+.info {
+    border-color: rgba(59, 130, 246, 0.3);
+    background: linear-gradient(145deg, rgba(59, 130, 246, 0.1) 0%, rgba(30, 41, 59, 0.9) 100%);
 }

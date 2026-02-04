@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { ArrowLeft, Printer } from 'lucide-react';
 import Link from 'next/link';
-import { api } from '@/lib/api';
+import { studentsAPI } from '@/services/api';
 import Button from '@/components/Button';
 import styles from './page.module.css';
 
@@ -21,8 +21,8 @@ export default function ReportCardPage() {
     async function fetchReport() {
         try {
             setLoading(true);
-            const data = await api.students.getReportCard(id);
-            setReport(data);
+            const response = await studentsAPI.getReportCard(id);
+            setReport(response.data);
         } catch (err) {
             setError(err.message);
         } finally {

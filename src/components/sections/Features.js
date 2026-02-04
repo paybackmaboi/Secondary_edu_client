@@ -1,7 +1,7 @@
 'use client';
 import { motion } from 'framer-motion';
 import { FaUserGraduate, FaChartBar, FaCalendarCheck, FaBook, FaAward, FaClipboardList } from 'react-icons/fa';
-import Card from '../ui/Card';
+import Card from '../Card';
 
 const features = [
     {

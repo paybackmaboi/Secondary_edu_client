@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaUser, FaLock, FaGraduationCap } from 'react-icons/fa';
 import { useAuth } from '../../../contexts/AuthContext';
-import Button from '../../../components/ui/Button';
+import Button from '@/components/Button';
 
 export default function LoginPage() {
     const [username, setUsername] = useState('');

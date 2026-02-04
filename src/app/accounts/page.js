@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Trash2, Plus, UserCog } from 'lucide-react';
-import { api } from '@/lib/api';
+import { accountsAPI } from '@/services/api';
 import Table from '@/components/Table';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
@@ -18,7 +18,8 @@ export default function AccountsPage() {
     }, []);
 
     const loadAccounts = () => {
-        api.accounts.list().then(data => {
+        accountsAPI.getAll().then(response => {
+            const data = response.data;
             setAccounts(Array.isArray(data) ? data : (data.data || []));
             setLoading(false);
         }).catch(e => setLoading(false));
@@ -27,7 +28,7 @@ export default function AccountsPage() {
     const handleDelete = async (id) => {
         if (confirm("Are you sure you want to delete this account?")) {
             try {
-                await api.accounts.delete(id);
+                await accountsAPI.delete(id);
                 loadAccounts();
             } catch (e) {
                 alert("Failed to delete account");

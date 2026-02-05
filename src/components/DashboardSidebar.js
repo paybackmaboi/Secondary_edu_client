@@ -47,7 +47,6 @@ const menuConfig = {
         {
             section: 'Reports', items: [
                 { name: 'Reports', href: '/dashboard/reports', icon: FileText },
-                { name: 'Analytics', href: '/dashboard/analytics', icon: BarChart3 },
             ]
         },
     ],

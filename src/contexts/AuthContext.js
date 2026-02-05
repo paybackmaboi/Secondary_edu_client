@@ -1,7 +1,7 @@
 'use client';
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import api from '../services/api';
+import api, { authAPI } from '../services/api';
 
 const AuthContext = createContext();
 
@@ -20,55 +20,110 @@ export function AuthProvider({ children }) {
         }
     }, []);
 
-    const login = async (username, password) => {
+    const login = useCallback(async (username, password) => {
         try {
             let account = null;
-            if (username === 'superadmin' && password === 'SuperAdmin@123') {
-                account = { username: 'superadmin', role: 'superadmin', isActive: true };
-                // Test default accounts from guide
-            } else if (username === 'admin' && password === 'admin') {
-                account = { username: 'admin', role: 'admin', isActive: true };
-            } else if (username === 'teacher' && password === 'teacher') {
-                account = { username: 'teacher', role: 'teacher', isActive: true };
-            } else {
-                try {
-                    // Fallback to API
-                    const response = await api.get('/accounts');
-                    const accounts = Array.isArray(response.data) ? response.data : (response.data.data || []);
-                    account = accounts.find(acc => acc.username === username);
-                } catch (e) { console.error("Login API error", e); }
+
+            // First try the backend auth API
+            try {
+                const response = await authAPI.login({ username, password });
+                const userData = response.data?.user || response.data?.data || response.data;
+
+                if (userData && userData.username) {
+                    account = {
+                        id: userData.id,
+                        username: userData.username,
+                        email: userData.email,
+                        role: userData.role,
+                        isActive: userData.isActive !== false
+                    };
+
+                    // Store token if provided
+                    if (response.data?.token) {
+                        localStorage.setItem('token', response.data.token);
+                    }
+                }
+            } catch (apiError) {
+                console.log('Auth API not available, using fallback...', apiError.message);
+            }
+
+            // Fallback: Test default accounts from guide
+            if (!account) {
+                if (username === 'superadmin' && password === 'SuperAdmin@123') {
+                    account = { id: 1, username: 'superadmin', role: 'superadmin', isActive: true };
+                } else if (username === 'admin' && password === 'admin') {
+                    account = { id: 2, username: 'admin', role: 'admin', isActive: true };
+                } else if (username === 'teacher' && password === 'teacher') {
+                    account = { id: 3, username: 'teacher', role: 'teacher', isActive: true };
+                } else {
+                    // Fallback to fetching all accounts (legacy)
+                    try {
+                        const response = await api.get('/accounts');
+                        const accounts = Array.isArray(response.data) ? response.data : (response.data?.data || []);
+                        account = accounts.find(acc => acc.username === username && acc.isActive);
+                    } catch (e) {
+                        console.error("Accounts API error", e);
+                    }
+                }
             }
 
             if (account) {
+                // Set user state and localStorage
                 setUser(account);
                 localStorage.setItem('user', JSON.stringify(account));
 
-                router.push('/dashboard');
-
+                // Use window.location for reliable redirect
+                window.location.href = '/dashboard';
                 return { success: true };
             }
+
             return { success: false, error: 'Invalid credentials' };
         } catch (error) {
+            console.error('Login error:', error);
             return { success: false, error: error.message };
         }
-    };
+    }, []);
 
-    const logout = () => {
+    const logout = useCallback(async () => {
+        try {
+            // Try to call logout API
+            await authAPI.logout().catch(() => { });
+        } catch (e) { /* ignore */ }
+
         setUser(null);
         localStorage.removeItem('user');
+        localStorage.removeItem('token');
         router.push('/login');
-    };
+    }, [router]);
 
-    const hasRole = (roles) => {
+    const hasRole = useCallback((roles) => {
         if (!user) return false;
-        return roles.includes(user.role);
+        if (Array.isArray(roles)) {
+            return roles.includes(user.role);
+        }
+        return user.role === roles;
+    }, [user]);
+
+    const value = {
+        user,
+        login,
+        logout,
+        loading,
+        hasRole,
+        isAuthenticated: !!user
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, loading, hasRole }}>
+        <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
     );
 }
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error('useAuth must be used within an AuthProvider');
+    }
+    return context;
+};

@@ -3,8 +3,9 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Users, Plus, Eye, Trash2, Search, FileText } from 'lucide-react';
+import { Users, Plus, Eye, Trash2, Search, FileText, Edit } from 'lucide-react';
 import { studentsAPI } from '@/services/api';
+import { useAuth } from '@/contexts/AuthContext';
 import Card from '@/components/Card';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
@@ -14,10 +15,12 @@ import styles from '../layout.module.css';
 
 export default function StudentsPage() {
     const router = useRouter();
+    const { user } = useAuth();
     const [students, setStudents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [deleteModal, setDeleteModal] = useState({ open: false, student: null });
+    const [deleting, setDeleting] = useState(false);
 
     useEffect(() => {
         loadStudents();
@@ -36,7 +39,16 @@ export default function StudentsPage() {
         }
     };
 
+    // Filter students based on search query AND user role
     const filteredStudents = students.filter(student => {
+        // Role-based restriction: 'user' role can only see their own record
+        if (user?.role === 'user') {
+            // Match by LRN (assuming username is LRN) or Name if username matches
+            const isLinked = student.lrn === user.username ||
+                student.firstName.toLowerCase() === user.username.toLowerCase();
+            if (!isLinked) return false;
+        }
+
         const query = searchQuery.toLowerCase();
         return (
             student.firstName?.toLowerCase().includes(query) ||
@@ -46,12 +58,22 @@ export default function StudentsPage() {
     });
 
     const handleDelete = async () => {
-        // TODO: Implement delete when API supports it
-        setDeleteModal({ open: false, student: null });
-        loadStudents();
+        if (!deleteModal.student) return;
+        setDeleting(true);
+        try {
+            await studentsAPI.delete(deleteModal.student.id);
+            setDeleteModal({ open: false, student: null });
+            loadStudents();
+        } catch (error) {
+            console.error('Error deleting student:', error);
+            alert('Failed to delete student. Please try again.');
+        } finally {
+            setDeleting(false);
+        }
     };
 
     const headers = ['LRN', 'Name', 'Grade Level', 'Section', 'Actions'];
+    const isStudentUser = user?.role === 'user';
 
     const renderRow = (student) => (
         <>
@@ -70,24 +92,48 @@ export default function StudentsPage() {
                     >
                         <Eye size={16} />
                     </Button>
-                    <Button
-                        variant="ghost"
-                        size="sm"
-                        iconOnly
-                        onClick={() => router.push(`/dashboard/students/${student.id}/report-card`)}
-                        title="Report Card"
-                    >
-                        <FileText size={16} />
-                    </Button>
-                    <Button
-                        variant="ghost"
-                        size="sm"
-                        iconOnly
-                        onClick={() => setDeleteModal({ open: true, student })}
-                        title="Delete Student"
-                    >
-                        <Trash2 size={16} />
-                    </Button>
+                    {!isStudentUser && (
+                        <>
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                iconOnly
+                                onClick={() => router.push(`/dashboard/students/${student.id}/edit`)}
+                                title="Edit Student"
+                            >
+                                <Edit size={16} />
+                            </Button>
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                iconOnly
+                                onClick={() => router.push(`/dashboard/students/${student.id}/report-card`)}
+                                title="Report Card"
+                            >
+                                <FileText size={16} />
+                            </Button>
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                iconOnly
+                                onClick={() => setDeleteModal({ open: true, student })}
+                                title="Delete Student"
+                            >
+                                <Trash2 size={16} />
+                            </Button>
+                        </>
+                    )}
+                    {isStudentUser && (
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            iconOnly
+                            onClick={() => router.push(`/dashboard/students/${student.id}/report-card`)}
+                            title="My Report Card"
+                        >
+                            <FileText size={16} />
+                        </Button>
+                    )}
                 </div>
             </td>
         </>
@@ -98,25 +144,36 @@ export default function StudentsPage() {
             <div className={styles.header}>
                 <div className={styles.headerLeft}>
                     <h1 className={styles.title}>Students</h1>
-                    <span className={styles.greeting}>{students.length} total students</span>
+                    <span className={styles.greeting}>
+                        {isStudentUser ? 'My Record' : `${students.length} total students`}
+                    </span>
                 </div>
-                <div className={styles.headerRight}>
-                    <Link href="/dashboard/students/create">
-                        <Button variant="primary" leftIcon={<Plus size={18} />}>
-                            Add Student
-                        </Button>
-                    </Link>
-                </div>
+                {!isStudentUser && (
+                    <div className={styles.headerRight}>
+                        <Link href="/dashboard/students/create">
+                            <Button variant="primary" leftIcon={<Plus size={18} />}>
+                                Add Student
+                            </Button>
+                        </Link>
+                    </div>
+                )}
             </div>
 
             <Card>
                 <div style={{ marginBottom: '1rem' }}>
-                    <Input
-                        placeholder="Search by name or LRN..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        leftIcon={<Search size={18} />}
-                    />
+                    {!isStudentUser && (
+                        <Input
+                            placeholder="Search by name or LRN..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            leftIcon={<Search size={18} />}
+                        />
+                    )}
+                    {isStudentUser && filteredStudents.length === 0 && !loading && (
+                        <div style={{ padding: '1rem', background: 'var(--bg-secondary)', borderRadius: '8px', color: 'var(--text-muted)' }}>
+                            No student record linked to your account. Please contact an administrator to link your account (Username must match your LRN).
+                        </div>
+                    )}
                 </div>
 
                 <Table
@@ -126,7 +183,7 @@ export default function StudentsPage() {
                     keyExtractor={(student) => student.id}
                     loading={loading}
                     emptyMessage="No students found"
-                    emptySubtext="Add your first student to get started"
+                    emptySubtext={isStudentUser ? "Contact admin to link your record" : "Add your first student to get started"}
                 />
             </Card>
 
@@ -135,9 +192,10 @@ export default function StudentsPage() {
                 onClose={() => setDeleteModal({ open: false, student: null })}
                 onConfirm={handleDelete}
                 title="Delete Student"
-                message={`Are you sure you want to delete ${deleteModal.student?.firstName} ${deleteModal.student?.lastName}?`}
+                message={`Are you sure you want to delete ${deleteModal.student?.firstName} ${deleteModal.student?.lastName}? This will also delete all associated grades, attendance, and observed values.`}
                 variant="danger"
                 icon={<Trash2 size={28} />}
+                loading={deleting}
             />
         </div>
     );

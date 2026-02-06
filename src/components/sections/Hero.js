@@ -1,5 +1,4 @@
 'use client';
-import { motion } from 'framer-motion';
 import { FaGraduationCap, FaArrowRight } from 'react-icons/fa';
 import Link from 'next/link';
 import Button from '../Button';
@@ -7,72 +6,33 @@ import Button from '../Button';
 export default function Hero() {
     return (
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-            {/* Animated Background Circles */}
-            <div className="absolute inset-0 overflow-hidden">
-                {[...Array(5)].map((_, i) => (
-                    <motion.div
-                        key={i}
-                        className="absolute rounded-full bg-gradient-to-r from-indigo-500/10 to-purple-500/10"
-                        style={{
-                            width: `${200 + i * 150}px`,
-                            height: `${200 + i * 150}px`,
-                            left: `${20 + i * 10}%`,
-                            top: `${10 + i * 15}%`,
-                        }}
-                        animate={{
-                            scale: [1, 1.2, 1],
-                            opacity: [0.3, 0.5, 0.3],
-                        }}
-                        transition={{
-                            duration: 5 + i,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                        }}
-                    />
-                ))}
-            </div>
-
             <div className="container mx-auto px-6 relative z-10">
-                <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
-                    className="text-center"
-                >
-                    <motion.div
-                        animate={{ rotate: [0, 10, -10, 0] }}
-                        transition={{ duration: 5, repeat: Infinity }}
-                        className="inline-block mb-8"
-                    >
-                        <div className="p-6 rounded-3xl bg-gradient-to-r from-indigo-500 to-purple-600 shadow-2xl">
+                <div className="text-center max-w-4xl mx-auto">
+                    <div className="inline-block mb-8">
+                        <div className="p-6 rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl">
                             <FaGraduationCap className="text-6xl text-white" />
                         </div>
-                    </motion.div>
+                    </div>
 
-                    <h1 className="text-5xl md:text-7xl font-bold mb-6">
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400">
-                            School Management
-                        </span>
-                        <br />
-                        <span className="text-white">System</span>
+                    <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white tracking-tight">
+                        BC PORTAL
                     </h1>
 
-                    <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-10">
-                        A comprehensive platform for managing students, grades, attendance,
-                        and academic records with role-based access control.
+                    <p className="text-xl md:text-2xl text-slate-200 max-w-3xl mx-auto mb-10 font-light leading-relaxed">
+                        BC school management system for primary and secondary education
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <Link href="/login">
-                            <Button size="lg">
+                            <Button size="lg" className="bg-white text-indigo-900 hover:bg-slate-100 border-none">
                                 Get Started <FaArrowRight className="inline ml-2" />
                             </Button>
                         </Link>
-                        <Button variant="outline" size="lg">
+                        <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/10">
                             Learn More
                         </Button>
                     </div>
-                </motion.div>
+                </div>
             </div>
         </section>
     );

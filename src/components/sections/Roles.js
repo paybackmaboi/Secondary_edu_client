@@ -1,5 +1,4 @@
 'use client';
-import { motion } from 'framer-motion';
 import { FaUserShield, FaUserCog, FaChalkboardTeacher, FaUser } from 'react-icons/fa';
 import Card from '../Card';
 
@@ -53,30 +52,19 @@ export default function Roles() {
     return (
         <section className="py-24 bg-slate-900/50">
             <div className="container mx-auto px-6">
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    className="text-center mb-16"
-                >
+                <div className="text-center mb-16">
                     <h2 className="text-4xl font-bold text-white mb-4">
                         Role-Based Access
                     </h2>
                     <p className="text-slate-400 max-w-2xl mx-auto">
                         Secure access control with four distinct user roles.
                     </p>
-                </motion.div>
+                </div>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {roles.map((role, idx) => (
-                        <motion.div
-                            key={idx}
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: idx * 0.1 }}
-                        >
-                            <Card className="h-full text-center">
+                        <div key={idx}>
+                            <Card className="h-full text-center hover:transform hover:scale-105 transition-transform duration-300">
                                 <div className={`p-4 rounded-2xl bg-gradient-to-r ${role.color} w-fit mx-auto mb-4`}>
                                     <role.icon className="text-3xl text-white" />
                                 </div>
@@ -89,7 +77,7 @@ export default function Roles() {
                                     ))}
                                 </ul>
                             </Card>
-                        </motion.div>
+                        </div>
                     ))}
                 </div>
             </div>

@@ -102,26 +102,13 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Live Background Animation */
+/* Static Professional Background with Overlay */
 .live-bg {
-  background: linear-gradient(-45deg, #0f172a, #1e293b, #312e81, #1e1b4b);
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
+  background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.85)), url('/hero-bg.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   min-height: 100vh;
-}
-
-@keyframes gradientShift {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
-  }
 }
 
 /* Floating Particles */
